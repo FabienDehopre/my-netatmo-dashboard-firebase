@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: 'AIzaSyAK9kzVu_ZYlKT-AUVhYodJPANIOGljoM8',
+    authDomain: 'my-netatmo-dashboard.firebaseapp.com',
+    databaseURL: 'https://my-netatmo-dashboard.firebaseio.com',
+    projectId: 'my-netatmo-dashboard',
+    storageBucket: 'my-netatmo-dashboard.appspot.com',
+    messagingSenderId: '252006230321'
+  }
 };
 
 /*
