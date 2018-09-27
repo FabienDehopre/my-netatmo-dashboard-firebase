@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +8,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor(readonly afAuth: AngularFireAuth) {}
+  constructor(readonly afAuth: AngularFireAuth, private readonly afs: AngularFirestore) {}
 
   ngOnInit() {}
 

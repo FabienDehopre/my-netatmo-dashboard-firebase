@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
+    "prestart": "node ./scripts/set-env.js",
     "start": "ng serve",
-    "build": "ng build",
+    "prebuild": "node ./scripts/set-env.js --prod",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -35,6 +37,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "~4.3.0",
+    "ejs": "^2.6.1",
     "husky": "^1.0.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

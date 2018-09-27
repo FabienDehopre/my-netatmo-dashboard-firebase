@@ -1,0 +1,11 @@
+export const environment = {
+  production: false,
+  firebase: {
+    apiKey: '<%= MY_NETATMO_DASHBOARD_FIREBASE_API_KEY %>',
+    authDomain: '<%= MY_NETATMO_DASHBOARD_FIREBASE_AUTH_DOMAIN %>',
+    databaseURL: '<%= MY_NETATMO_DASHBOARD_FIREBASE_DATABASE_URL %>',
+    projectId: '<%= MY_NETATMO_DASHBOARD_FIREBASE_PROJECT_ID %>',
+    storageBucket: '<%= MY_NETATMO_DASHBOARD_FIREBASE_STORAGE_BUCKET %>',
+    messagingSenderId: '<%= MY_NETATMO_DASHBOARD_FIREBASE_SENDER_ID %>',
+  },
+};
