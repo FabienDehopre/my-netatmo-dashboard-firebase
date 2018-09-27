@@ -5,13 +5,13 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: 'AIzaSyAK9kzVu_ZYlKT-AUVhYodJPANIOGljoM8',
+    apiKey: '%%MY_NETATMO_DASHBOARD_FIREBASE_APIKEY%%',
     authDomain: 'my-netatmo-dashboard.firebaseapp.com',
     databaseURL: 'https://my-netatmo-dashboard.firebaseio.com',
     projectId: 'my-netatmo-dashboard',
     storageBucket: 'my-netatmo-dashboard.appspot.com',
-    messagingSenderId: '252006230321'
-  }
+    messagingSenderId: '252006230321',
+  },
 };
 
 /*

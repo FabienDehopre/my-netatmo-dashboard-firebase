@@ -1,0 +1,6 @@
+<div *ngIf="afAuth.user | async as user">
+  <h1>Hello {{ user.displayName }}</h1>
+  <img [src]="user.photoURL" class="avatar">
+  <pre>{{ user | json }}</pre>
+</div>
+<button (click)="logout()">Logout</button>
