@@ -2,5 +2,11 @@
   <h1>Hello {{ user.displayName }}</h1>
   <img [src]="user.photoURL" class="avatar">
   <pre>{{ user | json }}</pre>
+  <pre>{{ values$ | async | json }}</pre>
 </div>
 <button (click)="logout()">Logout</button>
+<form *ngIf="netatmoAuthorize" method="post" [action]="netatmoAuthorize">
+  <p>This application is not authorized to read your weather station data.</p>
+  <p>Click the button bellow to authorize this application to read your weather station data</p>
+  <button type="submit">Authorize App</button>
+</form>
