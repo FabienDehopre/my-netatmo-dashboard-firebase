@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { NetatmoAuthorization } from '../../models/netatmo-authorization';
@@ -88,19 +88,19 @@ export class HomeComponent implements OnInit {
               .pipe(
                 map(
                   res => ({
-                    uid: user.uid,
                     access_token: res.access_token,
                     expires_at: new Date(Date.now() + res.expires_in * 1000).valueOf(),
-                    refresh_token: res.refresh_token,
                   }),
-                  tap((newUser: User) => {
+                  tap((newUser: Partial<User>) => {
                     this.afs
                       .collection('users')
                       .doc<User>(user.uid)
-                      .set(newUser);
+                      .update(newUser);
                   })
                 )
               );
+          } else if (user != null && user.refresh_token == null) {
+            return throwError('Cannot refresh netatmo access token because the refresh token does not exist.');
           } else {
             return of(user);
           }
