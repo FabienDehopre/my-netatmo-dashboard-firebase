@@ -1,13 +1,11 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
-import { NetatmoAuthorization } from '../../models/netatmo-authorization';
 import { User } from '../../models/user';
+import { NetatmoService } from '../../services/netatmo.service';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +21,7 @@ export class HomeComponent implements OnInit {
     readonly afAuth: AngularFireAuth,
     private readonly afs: AngularFirestore,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly http: HttpClient
+    private readonly netatomService: NetatmoService
   ) {}
 
   ngOnInit() {
@@ -66,39 +64,29 @@ export class HomeComponent implements OnInit {
         ),
         tap(user => {
           if (user == null || user.access_token == null) {
-            const state = 'dskfjqisfmjioeznf';
-            sessionStorage.setItem('netatmo_state', state);
-            this.netatmoAuthorize = `https://api.netatmo.com/oauth2/authorize?client_id=${
-              environment.netatmo.clientId
-            }&redirect_uri=http://localhost:4200/callback&scope=read_station&state=${state}`;
+            this.netatmoAuthorize = this.netatomService.buildAuthorizationUrl();
           }
         }),
         switchMap(user => {
           if (user != null && user.expires_at <= Date.now() && user.refresh_token != null) {
-            const body = new HttpParams()
-              .set('grant_type', 'refresh_token')
-              .set('client_id', environment.netatmo.clientId)
-              .set('client_secret', environment.netatmo.clientSecret)
-              .set('refresh_token', user.refresh_token);
             console.log('refresh netatmo access token using refresh token');
-            return this.http
-              .post<NetatmoAuthorization>('https://api.netatmo.com/oauth2/token', body.toString(), {
-                headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8'),
-              })
-              .pipe(
-                map(
-                  res => ({
-                    access_token: res.access_token,
-                    expires_at: new Date(Date.now() + res.expires_in * 1000).valueOf(),
-                  }),
-                  tap((newUser: Partial<User>) => {
-                    this.afs
-                      .collection('users')
-                      .doc<User>(user.uid)
-                      .update(newUser);
-                  })
-                )
-              );
+            return this.netatomService.refreshAccessToken(user.refresh_token).pipe(
+              map(
+                res => ({
+                  access_token: res.access_token,
+                  expires_at: new Date(Date.now() + res.expires_in * 1000).valueOf(),
+                  refresh_token: res.refresh_token,
+                  uid: user.uid,
+                }),
+                tap((newUser: User) => {
+                  console.log('updating user in firestore', newUser);
+                  this.afs
+                    .collection('users')
+                    .doc<User>(user.uid)
+                    .set(newUser, { merge: true });
+                })
+              )
+            );
           } else if (user != null && user.refresh_token == null) {
             return throwError('Cannot refresh netatmo access token because the refresh token does not exist.');
           } else {
