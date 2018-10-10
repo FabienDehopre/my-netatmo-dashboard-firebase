@@ -36,6 +36,7 @@ export class CallbackComponent implements OnInit {
           .set(
             {
               uid,
+              enabled: true,
               access_token: authCode.access_token,
               expires_at: new Date(Date.now() + authCode.expires_in * 1000).valueOf(),
               refresh_token: authCode.refresh_token,

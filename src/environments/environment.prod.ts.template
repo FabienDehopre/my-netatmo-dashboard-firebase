@@ -9,7 +9,7 @@ export const environment = {
     messagingSenderId: '<%= MY_NETATMO_DASHBOARD_FIREBASE_SENDER_ID %>',
   },
   netatmo: {
-    clientId: '<%= MY_NETATMO_DASHBOARD_NETATMO_CLIENT_ID %>',
-    clientSecret: '<%= MY_NETATMO_DASHBOARD_NETATMO_CLIENT_SECRET %>',
+    clientId: '<%= MY_NETATMO_DASHBOARD_NETATMO_CLIENT_ID_PROD %>',
+    clientSecret: '<%= MY_NETATMO_DASHBOARD_NETATMO_CLIENT_SECRET_PROD %>',
   },
 };
