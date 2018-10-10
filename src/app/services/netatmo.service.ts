@@ -13,9 +13,9 @@ export class NetatmoService {
   buildAuthorizationUrl(): string {
     const state = 'dskfjqisfmjioeznf';
     sessionStorage.setItem('netatmo_state', state);
-    return `https://api.netatmo.com/oauth2/authorize?client_id=${
-      environment.netatmo.clientId
-    }&redirect_uri=http://localhost:4200/callback&scope=read_station&state=${state}`;
+    return `https://api.netatmo.com/oauth2/authorize?client_id=${environment.netatmo.clientId}&redirect_uri=${
+      environment.netatmo.redirectUri
+    }&scope=read_station&state=${state}`;
   }
 
   exchangeCodeForAccessToken(state: string, code: string, error: string): Observable<NetatmoAuthorization> {
@@ -32,7 +32,7 @@ export class NetatmoService {
       .set('client_id', environment.netatmo.clientId)
       .set('client_secret', environment.netatmo.clientSecret)
       .set('code', code)
-      .set('redirect_uri', 'http://localhost:4200/callback')
+      .set('redirect_uri', environment.netatmo.redirectUri)
       .set('scope', 'read_station');
     return this.http.post<NetatmoAuthorization>('https://api.netatmo.com/oauth2/token', body.toString(), {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8'),

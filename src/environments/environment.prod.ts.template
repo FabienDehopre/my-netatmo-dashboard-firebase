@@ -11,5 +11,6 @@ export const environment = {
   netatmo: {
     clientId: '<%= MY_NETATMO_DASHBOARD_NETATMO_CLIENT_ID_PROD %>',
     clientSecret: '<%= MY_NETATMO_DASHBOARD_NETATMO_CLIENT_SECRET_PROD %>',
+    redirectUri: 'https://my-netatmo-dashboard.firebaseapp.com/callback',
   },
 };

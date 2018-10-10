@@ -11,5 +11,6 @@ export const environment = {
   netatmo: {
     clientId: '<%= MY_NETATMO_DASHBOARD_NETATMO_CLIENT_ID %>',
     clientSecret: '<%= MY_NETATMO_DASHBOARD_NETATMO_CLIENT_SECRET %>',
+    redirectUri: 'http://localhost:4200/callback',
   },
 };

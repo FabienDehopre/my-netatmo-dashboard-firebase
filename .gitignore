@@ -41,3 +41,7 @@ Thumbs.db
 
 # Environment files
 /src/environments/*.ts
+
+# Firebase
+.firebase/
+functions/lib/

@@ -77,6 +77,7 @@ export class HomeComponent implements OnInit {
                   expires_at: new Date(Date.now() + res.expires_in * 1000).valueOf(),
                   refresh_token: res.refresh_token,
                   uid: user.uid,
+                  enabled: user.enabled,
                 }),
                 tap((newUser: User) => {
                   console.log('updating user in firestore', newUser);
