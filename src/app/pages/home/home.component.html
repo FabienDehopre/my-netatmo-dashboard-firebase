@@ -2,7 +2,13 @@
   <h1>Hello {{ user.displayName }}</h1>
   <img [src]="user.photoURL" class="avatar">
   <pre>{{ user | json }}</pre>
-  <pre>{{ values$ | async | json }}</pre>
+</div>
+<div *ngIf="values$ | async as values">
+  <pre>{{ values | json }}</pre>
+  <button (click)="getCurrentUser()">Test</button>
+  <div *ngIf="values.enabled; then enabled else disabled"></div>
+  <ng-template #disabled><button (click)="enableSync()">Enable Sync</button></ng-template>
+  <ng-template #enabled><button (click)="disableSync()">Disable Sync</button></ng-template>
 </div>
 <button (click)="logout()">Logout</button>
 <form *ngIf="netatmoAuthorize" method="post" [action]="netatmoAuthorize">
