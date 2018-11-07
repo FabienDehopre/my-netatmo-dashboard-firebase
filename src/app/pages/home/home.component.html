@@ -37,11 +37,6 @@
   </mat-sidenav>
   <mat-sidenav-content fxFlexFill>
     <app-user [user]="user$ | async"></app-user>
-    <!-- <ul *ngIf="(stations$ | async) as stations">
-      <li *ngFor="let station of stations">
-        <pre>{{ station | json }}</pre>
-      </li>
-    </ul> -->
     <mat-tab-group>
       <mat-tab *ngFor="let station of stations$ | async" [label]="station.name">
         <pre>{{ station.location | json }}</pre>

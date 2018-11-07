@@ -2,11 +2,11 @@
   <dt>Enabled</dt>
   <dd>{{ user?.enabled ? 'Yes' : 'No' }}</dd>
   <dt>Feel Like</dt>
-  <dd>{{ user?.feelLike }}</dd>
+  <dd>{{ feelLike(user?.feelLike) }}</dd>
   <dt>Pressure Unit</dt>
-  <dd>{{ user?.pressureUnit }}</dd>
+  <dd>{{ pressureUnit(user?.pressureUnit) }}</dd>
   <dt>Wind Unit</dt>
-  <dd>{{ user?.windUnit }}</dd>
-  <dt>Unit</dt>
-  <dd>{{ user?.unit }}</dd>
+  <dd>{{ windUnit(user?.windUnit) }}</dd>
+  <dt>Temperature Unit</dt>
+  <dd>{{ temperatureUnit(user?.unit) }}</dd>
 </dl>
