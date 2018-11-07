@@ -25,9 +25,23 @@ import { CallbackComponent } from './pages/callback/callback.component';
 import { AuthorizeDialogComponent } from './components/authorize-dialog/authorize-dialog.component';
 import { LayoutComponent } from './pages/layout/layout.component';
 import { UserComponent } from './components/user/user.component';
+import { WindUnitPipe } from './pipes/wind-unit.pipe';
+import { PressureUnitPipe } from './pipes/pressure-unit.pipe';
+import { UnitPipe } from './pipes/unit.pipe';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, CallbackComponent, AuthorizeDialogComponent, LayoutComponent, UserComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HomeComponent,
+    CallbackComponent,
+    AuthorizeDialogComponent,
+    LayoutComponent,
+    UserComponent,
+    WindUnitPipe,
+    PressureUnitPipe,
+    UnitPipe,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
