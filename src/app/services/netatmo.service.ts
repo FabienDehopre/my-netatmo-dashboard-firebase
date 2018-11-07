@@ -38,15 +38,4 @@ export class NetatmoService {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8'),
     });
   }
-
-  refreshAccessToken(refreshToken: string): Observable<NetatmoAuthorization> {
-    const body = new HttpParams()
-      .set('grant_type', 'refresh_token')
-      .set('client_id', environment.netatmo.clientId)
-      .set('client_secret', environment.netatmo.clientSecret)
-      .set('refresh_token', refreshToken);
-    return this.http.post<NetatmoAuthorization>('https://api.netatmo.com/oauth2/token', body.toString(), {
-      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8'),
-    });
-  }
 }

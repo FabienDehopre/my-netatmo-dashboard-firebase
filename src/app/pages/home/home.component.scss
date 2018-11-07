@@ -1,4 +1,18 @@
+:host {
+  height: 100vh;
+  display: block;
+}
+
+.example-icon {
+  padding: 0 14px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
 .avatar {
-  border-radius: 50%;
-  width: 64px;
+  border-radius: 6px;
+  width: 38px;
+  margin-left: 4px;
 }

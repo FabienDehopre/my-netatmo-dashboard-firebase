@@ -1,18 +1,60 @@
-<div *ngIf="afAuth.user | async as user">
-  <h1>Hello {{ user.displayName }}</h1>
-  <img [src]="user.photoURL" class="avatar">
-  <pre>{{ user | json }}</pre>
-</div>
-<div *ngIf="values$ | async as values">
-  <pre>{{ values | json }}</pre>
-  <button (click)="getCurrentUser()">Test</button>
-  <div *ngIf="values.enabled; then enabled else disabled"></div>
-  <ng-template #disabled><button (click)="enableSync()">Enable Sync</button></ng-template>
-  <ng-template #enabled><button (click)="disableSync()">Disable Sync</button></ng-template>
-</div>
-<button (click)="logout()">Logout</button>
-<form *ngIf="netatmoAuthorize" method="post" [action]="netatmoAuthorize">
-  <p>This application is not authorized to read your weather station data.</p>
-  <p>Click the button bellow to authorize this application to read your weather station data</p>
-  <button type="submit">Authorize App</button>
-</form>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm><mat-icon>menu</mat-icon></button>
+    <span>My Netatmo Dashboard</span> <span class="example-spacer"></span>
+    <div fxShow="true" fxHide.lt-md="true">
+      <a href="#" mat-button>
+        <mat-icon>notifications</mat-icon>
+        Notifications
+      </a>
+      <a href="#" mat-button>
+        <mat-icon>message</mat-icon>
+        Messages
+      </a>
+    </div>
+    <button mat-button [matMenuTriggerFor]="menu" *ngIf="(user$ | async) as user">
+      {{ user.displayName }} <img [src]="user.photoURL" class="avatar" />
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container fxFlexFill>
+  <mat-sidenav #sidenav>
+    <mat-nav-list>
+      <a href="#" mat-list-item>
+        <mat-icon>notifications</mat-icon>
+        Notifications
+      </a>
+      <a href="#" mat-list-item>
+        <mat-icon>message</mat-icon>
+        Messages
+      </a>
+      <a href="#" (click)="sidenav.toggle()" mat-list-item>
+        <mat-icon>close</mat-icon>
+        Close
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content fxFlexFill>
+    <app-user [user]="user$ | async"></app-user>
+    <!-- <ul *ngIf="(stations$ | async) as stations">
+      <li *ngFor="let station of stations">
+        <pre>{{ station | json }}</pre>
+      </li>
+    </ul> -->
+    <mat-tab-group>
+      <mat-tab *ngFor="let station of stations$ | async" [label]="station.name">
+        <pre>{{ station.location | json }}</pre>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<mat-menu #menu="matMenu">
+  <ng-container *ngIf="(user$ | async) as user">
+    <button *ngIf="!user.enabled" mat-menu-item (click)="enableSync(user.uid)">Enable synchronization</button>
+    <button *ngIf="user.enabled" mat-menu-item (click)="disableSync(user.uid)">Disable synchronization</button>
+  </ng-container>
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="logout()">Logout</button>
+</mat-menu>

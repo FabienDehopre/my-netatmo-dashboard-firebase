@@ -17,7 +17,7 @@ export const enum PressureUnit {
   mmHg = 2,
 }
 
-export const enum FeelLikeAlgo {
+export const enum FeelLike {
   humidex = 0,
   heatIndex = 1,
 }

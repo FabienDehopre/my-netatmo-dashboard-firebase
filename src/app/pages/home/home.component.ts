@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { User } from '../../models/user';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, of, throwError, Subject } from 'rxjs';
+import { catchError, map, switchMap, tap, mergeMap, first, filter, takeUntil } from 'rxjs/operators';
+import { User, UserDisplay } from '../../models/user';
 import { NetatmoService } from '../../services/netatmo.service';
+import { Station } from '../../models/station';
+import { MatDialog } from '@angular/material/dialog';
+import { AuthorizeDialogComponent } from '../../components/authorize-dialog/authorize-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -13,12 +16,15 @@ import { NetatmoService } from '../../services/netatmo.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  values$: Observable<User>;
-  netatmoAuthorize: string | null = null;
+  user$: Observable<UserDisplay>;
+  stations$: Observable<Station[]>;
   authorizeError: string | null = null;
+  private readonly logoutSubject = new Subject<void>();
 
   constructor(
-    readonly afAuth: AngularFireAuth,
+    private readonly router: Router,
+    private readonly dialog: MatDialog,
+    private readonly afAuth: AngularFireAuth,
     private readonly afs: AngularFirestore,
     private readonly activatedRoute: ActivatedRoute,
     private readonly netatomService: NetatmoService
@@ -26,7 +32,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.authorizeError = null;
-    this.netatmoAuthorize = null;
     if (this.activatedRoute.snapshot.queryParamMap.has('error')) {
       const error = this.activatedRoute.snapshot.queryParamMap.get('error');
       switch (error) {
@@ -54,44 +59,22 @@ export class HomeComponent implements OnInit {
           break;
       }
     } else {
-      this.values$ = this.afAuth.user.pipe(
-        map(user => user.uid),
-        switchMap(uid =>
+      this.user$ = this.afAuth.user.pipe(
+        filter(user => user != null),
+        switchMap(({ uid, displayName, photoURL }) =>
           this.afs
             .collection('users')
             .doc<User>(uid)
             .valueChanges()
+            .pipe(
+              map(user => ({ ...user, uid, displayName, photoURL })),
+              takeUntil(this.logoutSubject)
+            )
         ),
         tap(user => {
-          if (user == null || user.access_token == null) {
-            this.netatmoAuthorize = this.netatomService.buildAuthorizationUrl();
-          }
-        }),
-        switchMap(user => {
-          if (user != null && user.expires_at <= Date.now() && user.refresh_token != null) {
-            console.log('refresh netatmo access token using refresh token');
-            return this.netatomService.refreshAccessToken(user.refresh_token).pipe(
-              map(
-                res => ({
-                  access_token: res.access_token,
-                  expires_at: new Date(Date.now() + res.expires_in * 1000).valueOf(),
-                  refresh_token: res.refresh_token,
-                  uid: user.uid,
-                  enabled: user.enabled,
-                }),
-                tap((newUser: User) => {
-                  console.log('updating user in firestore', newUser);
-                  this.afs
-                    .collection('users')
-                    .doc<User>(user.uid)
-                    .set(newUser, { merge: true });
-                })
-              )
-            );
-          } else if (user != null && user.refresh_token == null) {
-            return throwError('Cannot refresh netatmo access token because the refresh token does not exist.');
-          } else {
-            return of(user);
+          if (user == null || user.refresh_token == null) {
+            const netatmoAuthorizeUrl = this.netatomService.buildAuthorizationUrl();
+            this.openAuthorizeDialog(netatmoAuthorizeUrl);
           }
         }),
         catchError(err => {
@@ -99,10 +82,55 @@ export class HomeComponent implements OnInit {
           return of(null);
         })
       );
+      this.stations$ = this.afAuth.user.pipe(
+        filter(user => user != null),
+        map(user => user.uid),
+        switchMap(uid =>
+          this.afs
+            .collection<User>('users')
+            .doc(uid)
+            .collection<Station>('stations')
+            .valueChanges()
+            .pipe(takeUntil(this.logoutSubject))
+        )
+      );
     }
   }
 
-  logout(): void {
-    this.afAuth.auth.signOut();
+  async logout(): Promise<void> {
+    this.logoutSubject.next();
+    await this.afAuth.auth.signOut();
+    await this.router.navigate(['/']);
+  }
+
+  async enableSync(uid: string): Promise<void> {
+    await this.afs
+      .collection('users')
+      .doc<User>(uid)
+      .update({ enabled: true });
+  }
+
+  async disableSync(uid: string): Promise<void> {
+    await this.afs
+      .collection('users')
+      .doc<User>(uid)
+      .update({ enabled: false });
+  }
+
+  openAuthorizeDialog(authorizeUrl: string): void {
+    const dialogRef = this.dialog.open(AuthorizeDialogComponent, {
+      width: '250px',
+      hasBackdrop: true,
+      closeOnNavigation: true,
+      data: authorizeUrl,
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(first())
+      .subscribe(result => {
+        if (result === false) {
+          this.logout();
+        }
+      });
   }
 }

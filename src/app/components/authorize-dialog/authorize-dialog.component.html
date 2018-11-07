@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Authorize the application</h1>
+<form method="POST" [action]="netatmoAuthorize">
+  <div mat-dialog-content>
+    <p>This application is not authorized to read your weather station data.</p>
+    <p>Click the button bellow to authorize this application to read your weather station data</p>
+  </div>
+  <div mat-dialog-actions>
+    <button type="submit" mat-button cdkFocusInitial>Authorize App</button> <button mat-button (click)="cancel()">Cancel</button>
+  </div>
+</form>

@@ -71,6 +71,7 @@ export const fetchAndUpdate = functions.https.onRequest(async (req, res) => {
           count++;
 
           const station: Station = {
+            id: mainDeviceId,
             name: device.station_name,
             location: {
               country: device.place.country,
@@ -84,6 +85,7 @@ export const fetchAndUpdate = functions.https.onRequest(async (req, res) => {
           await upsertStation(uid, mainDeviceId, station);
 
           const mainDevice: MainDevice = {
+            id: mainDeviceId,
             name: device.module_name,
             firmware: device.firmware,
             type: 'NAMain',
@@ -261,7 +263,7 @@ async function upsertDevice(uid: string, stationId: string, deviceId: string, de
     .collection('/devices')
     .doc(deviceId);
   const deviceSnapshot = await deviceDoc.get();
-  const device = { ...deviceSnapshot.data(), deviceData };
+  const device = { ...deviceSnapshot.data(), ...deviceData, id: deviceId };
   await deviceDoc.set(device, { merge: true });
 }
 
@@ -273,7 +275,7 @@ async function upsertStation(uid: string, deviceId: string, stationData: Station
     .collection('/stations')
     .doc(deviceId);
   const stationSnapshot = await stationDoc.get();
-  const station = { ...stationSnapshot.data(), stationData };
+  const station = { ...stationSnapshot.data(), ...stationData, id: deviceId };
   await stationDoc.set(station, { merge: true });
 }
 
