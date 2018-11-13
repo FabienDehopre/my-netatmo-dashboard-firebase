@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   user$: Observable<UserDisplay>;
   stations$: Observable<StationDisplay[]>;
   authorizeError: string | null = null;
-  selectedStation: Station;
+  selectedStation: string | null = null;
   private readonly logoutSubject = new Subject<void>();
 
   constructor(
@@ -104,23 +104,25 @@ export class HomeComponent implements OnInit {
         )
       );
     }
+    if (this.activatedRoute.firstChild != null) {
+      this.selectedStation = this.activatedRoute.firstChild.snapshot.paramMap.get('stationId');
+    }
   }
 
-  async logout(): Promise<void> {
+  logout(): void {
     this.logoutSubject.next();
-    await this.afAuth.auth.signOut();
-    await this.router.navigate(['/']);
+    this.afAuth.auth.signOut().then(() => this.router.navigate(['/']));
   }
 
-  async enableSync(uid: string): Promise<void> {
-    await this.afs
+  enableSync(uid: string): void {
+    this.afs
       .collection('users')
       .doc<User>(uid)
       .update({ enabled: true });
   }
 
-  async disableSync(uid: string): Promise<void> {
-    await this.afs
+  disableSync(uid: string): void {
+    this.afs
       .collection('users')
       .doc<User>(uid)
       .update({ enabled: false });
@@ -141,5 +143,13 @@ export class HomeComponent implements OnInit {
           this.logout();
         }
       });
+  }
+
+  stationSelected({ value: stationId }): void {
+    if (stationId != null) {
+      this.router.navigate(['/dashboard', stationId]);
+    } else {
+      this.router.navigate(['/dashboard']);
+    }
   }
 }

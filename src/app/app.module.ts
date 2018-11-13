@@ -31,6 +31,7 @@ import { UserComponent } from './components/user/user.component';
 import { WindUnitPipe } from './pipes/wind-unit.pipe';
 import { PressureUnitPipe } from './pipes/pressure-unit.pipe';
 import { UnitPipe } from './pipes/unit.pipe';
+import { StationComponent } from './pages/station/station.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { UnitPipe } from './pipes/unit.pipe';
     WindUnitPipe,
     PressureUnitPipe,
     UnitPipe,
+    StationComponent,
   ],
   imports: [
     BrowserModule,

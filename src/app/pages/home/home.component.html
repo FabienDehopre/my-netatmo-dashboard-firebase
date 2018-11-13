@@ -38,11 +38,11 @@
   <mat-sidenav-content fxFlexFill>
     <app-user [user]="user$ | async"></app-user>
     <mat-form-field>
-      <mat-select [(value)]="selectedStation">
+      <mat-select [placeholder]="'Select a station'" [(value)]="selectedStation" (selectionChange)="stationSelected($event)">
         <mat-option *ngFor="let station of (stations$ | async)" [value]="station.id">{{ station.name }}</mat-option>
       </mat-select>
     </mat-form-field>
-    <pre>{{ selectedStation | json }}</pre>
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
 

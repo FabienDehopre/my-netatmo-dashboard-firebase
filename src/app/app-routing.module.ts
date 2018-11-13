@@ -5,6 +5,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LayoutComponent } from './pages/layout/layout.component';
+import { StationComponent } from './pages/station/station.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -13,8 +14,14 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: 'login', component: LoginComponent },
-      { path: 'dashboard', component: HomeComponent, canActivate: [AuthGuard] },
       { path: 'callback', component: CallbackComponent, canActivate: [AuthGuard] },
+      {
+        path: 'dashboard',
+        component: HomeComponent,
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
+        children: [{ path: ':stationId', component: StationComponent }],
+      },
     ],
   },
 ];
