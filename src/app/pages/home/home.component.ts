@@ -6,7 +6,7 @@ import { Observable, of, throwError, Subject } from 'rxjs';
 import { catchError, map, switchMap, tap, mergeMap, first, filter, takeUntil } from 'rxjs/operators';
 import { User, UserDisplay } from '../../models/user';
 import { NetatmoService } from '../../services/netatmo.service';
-import { Station } from '../../models/station';
+import { Station, StationDisplay } from '../../models/station';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthorizeDialogComponent } from '../../components/authorize-dialog/authorize-dialog.component';
 
@@ -17,8 +17,9 @@ import { AuthorizeDialogComponent } from '../../components/authorize-dialog/auth
 })
 export class HomeComponent implements OnInit {
   user$: Observable<UserDisplay>;
-  stations$: Observable<Station[]>;
+  stations$: Observable<StationDisplay[]>;
   authorizeError: string | null = null;
+  selectedStation: Station;
   private readonly logoutSubject = new Subject<void>();
 
   constructor(
@@ -82,16 +83,23 @@ export class HomeComponent implements OnInit {
           return of(null);
         })
       );
-      this.stations$ = this.afAuth.user.pipe(
-        filter(user => user != null),
-        map(user => user.uid),
-        switchMap(uid =>
+      this.stations$ = this.user$.pipe(
+        switchMap(user =>
           this.afs
             .collection<User>('users')
-            .doc(uid)
+            .doc(user.uid)
             .collection<Station>('stations')
-            .valueChanges()
-            .pipe(takeUntil(this.logoutSubject))
+            .snapshotChanges()
+            .pipe(
+              map(arr =>
+                arr.map(snap => {
+                  const data = snap.payload.doc.data();
+                  const id = snap.payload.doc.id;
+                  return { id, ...data };
+                })
+              ),
+              takeUntil(this.logoutSubject)
+            )
         )
       );
     }

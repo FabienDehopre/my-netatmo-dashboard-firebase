@@ -1,5 +1,7 @@
+import * as firebase from 'firebase/app';
+
 export interface DashboardData {
-  timeUtc: number;
+  timeUtc: firebase.firestore.Timestamp;
   type: 'NAMain' | 'NAModule1' | 'NAModule2' | 'NAModule3' | 'NAModule4';
 }
 
@@ -9,11 +11,11 @@ export interface TemperatureData {
   current: number;
   min: {
     value: number;
-    timeUtc: number;
+    timeUtc: firebase.firestore.Timestamp;
   };
   max: {
     value: number;
-    timeUtc: number;
+    timeUtc: firebase.firestore.Timestamp;
   };
   trend: Trend;
 }
