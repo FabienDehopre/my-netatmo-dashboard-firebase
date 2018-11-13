@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, of, throwError, Subject } from 'rxjs';
-import { catchError, map, switchMap, tap, mergeMap, first, filter, takeUntil } from 'rxjs/operators';
-import { User, UserDisplay } from '../../models/user';
+import { MatDialog } from '@angular/material/dialog';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, map, switchMap, tap, first, filter, takeUntil } from 'rxjs/operators';
+
 import { NetatmoService } from '../../services/netatmo.service';
 import { Station, StationDisplay } from '../../models/station';
-import { MatDialog } from '@angular/material/dialog';
+import { User, UserDisplay } from '../../models/user';
 import { AuthorizeDialogComponent } from '../../components/authorize-dialog/authorize-dialog.component';
 
 @Component({
