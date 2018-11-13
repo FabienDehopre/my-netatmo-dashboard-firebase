@@ -71,13 +71,12 @@ export const fetchAndUpdate = functions.https.onRequest(async (req, res) => {
           count++;
 
           const station: Station = {
-            id: mainDeviceId,
             name: device.station_name,
             location: {
               country: device.place.country,
               city: device.place.city,
               timezone: device.place.timezone,
-              location: device.place.location,
+              location: convertToGeoPoint(device.place.location),
               altitude: device.place.altitude,
             },
           };
@@ -85,7 +84,6 @@ export const fetchAndUpdate = functions.https.onRequest(async (req, res) => {
           await upsertStation(uid, mainDeviceId, station);
 
           const mainDevice: MainDevice = {
-            id: mainDeviceId,
             name: device.module_name,
             firmware: device.firmware,
             type: 'NAMain',
@@ -95,17 +93,17 @@ export const fetchAndUpdate = functions.https.onRequest(async (req, res) => {
           await upsertDevice(uid, mainDeviceId, mainDeviceId, mainDevice);
 
           const mainDashboardData: MainDashboardData = {
-            timeUtc: device.dashboard_data.time_utc,
+            timeUtc: convertToTimestamp(device.dashboard_data.time_utc),
             type: 'NAMain',
             temperature: {
               current: device.dashboard_data.Temperature,
               min: {
                 value: device.dashboard_data.min_temp,
-                timeUtc: device.dashboard_data.date_min_temp,
+                timeUtc: convertToTimestamp(device.dashboard_data.date_min_temp),
               },
               max: {
                 value: device.dashboard_data.max_temp,
-                timeUtc: device.dashboard_data.date_max_temp,
+                timeUtc: convertToTimestamp(device.dashboard_data.date_max_temp),
               },
               trend: device.dashboard_data.temp_trend,
             },
@@ -138,17 +136,17 @@ export const fetchAndUpdate = functions.https.onRequest(async (req, res) => {
                 },
               } as OutdoorModuleDevice;
               moduleDashboardData = {
-                timeUtc: module.dashboard_data.time_utc,
+                timeUtc: convertToTimestamp(module.dashboard_data.time_utc),
                 type: 'NAModule1',
                 temperature: {
                   current: module.dashboard_data.Temperature,
                   min: {
                     value: module.dashboard_data.min_temp,
-                    timeUtc: module.dashboard_data.date_min_temp,
+                    timeUtc: convertToTimestamp(module.dashboard_data.date_min_temp),
                   },
                   max: {
                     value: module.dashboard_data.max_temp,
-                    timeUtc: module.dashboard_data.date_max_temp,
+                    timeUtc: convertToTimestamp(module.dashboard_data.date_max_temp),
                   },
                   trend: module.dashboard_data.temp_trend,
                 },
@@ -166,7 +164,7 @@ export const fetchAndUpdate = functions.https.onRequest(async (req, res) => {
                 },
               } as WindGaugeModuleDevice;
               moduleDashboardData = {
-                timeUtc: module.dashboard_data.time_utc,
+                timeUtc: convertToTimestamp(module.dashboard_data.time_utc),
                 type: 'NAModule2',
                 // TODO
               } as WindGaugeDashboardData;
@@ -182,7 +180,7 @@ export const fetchAndUpdate = functions.https.onRequest(async (req, res) => {
                 },
               } as RainGaugeModuleDevice;
               moduleDashboardData = {
-                timeUtc: module.dashboard_data.time_utc,
+                timeUtc: convertToTimestamp(module.dashboard_data.time_utc),
                 type: 'NAModule3',
                 // TODO
               } as RainGaugeDashboardData;
@@ -198,17 +196,17 @@ export const fetchAndUpdate = functions.https.onRequest(async (req, res) => {
                 },
               } as IndoorModuleDevice;
               moduleDashboardData = {
-                timeUtc: module.dashboard_data.time_utc,
+                timeUtc: convertToTimestamp(module.dashboard_data.time_utc),
                 type: 'NAModule4',
                 temperature: {
                   current: module.dashboard_data.Temperature,
                   min: {
                     value: module.dashboard_data.min_temp,
-                    timeUtc: module.dashboard_data.date_min_temp,
+                    timeUtc: convertToTimestamp(module.dashboard_data.date_min_temp),
                   },
                   max: {
                     value: module.dashboard_data.max_temp,
-                    timeUtc: module.dashboard_data.date_max_temp,
+                    timeUtc: convertToTimestamp(module.dashboard_data.date_max_temp),
                   },
                   trend: module.dashboard_data.temp_trend,
                 },
@@ -240,6 +238,14 @@ export const fetchAndUpdate = functions.https.onRequest(async (req, res) => {
   }
 });
 
+function convertToTimestamp(unixTimestamp: number): admin.firestore.Timestamp {
+  return new admin.firestore.Timestamp(unixTimestamp, 0);
+}
+
+function convertToGeoPoint([lat, lng]): admin.firestore.GeoPoint {
+  return new admin.firestore.GeoPoint(lat, lng);
+}
+
 async function insertDashboardData(uid: string, stationId: string, deviceId: string, dashboardData: DashboardData): Promise<void> {
   await admin
     .firestore()
@@ -263,7 +269,7 @@ async function upsertDevice(uid: string, stationId: string, deviceId: string, de
     .collection('/devices')
     .doc(deviceId);
   const deviceSnapshot = await deviceDoc.get();
-  const device = { ...deviceSnapshot.data(), ...deviceData, id: deviceId };
+  const device = { ...deviceSnapshot.data(), ...deviceData };
   await deviceDoc.set(device, { merge: true });
 }
 
@@ -275,7 +281,7 @@ async function upsertStation(uid: string, deviceId: string, stationData: Station
     .collection('/stations')
     .doc(deviceId);
   const stationSnapshot = await stationDoc.get();
-  const station = { ...stationSnapshot.data(), ...stationData, id: deviceId };
+  const station = { ...stationSnapshot.data(), ...stationData };
   await stationDoc.set(station, { merge: true });
 }
 

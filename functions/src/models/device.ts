@@ -1,5 +1,4 @@
 export interface Device {
-  id: string;
   name: string;
   firmware: number;
   type: 'NAMain' | 'NAModule1' | 'NAModule2' | 'NAModule3' | 'NAModule4';
