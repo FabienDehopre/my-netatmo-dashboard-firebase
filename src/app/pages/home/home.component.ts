@@ -7,9 +7,10 @@ import { Observable, of, Subject } from 'rxjs';
 import { catchError, map, switchMap, tap, first, filter, takeUntil } from 'rxjs/operators';
 
 import { NetatmoService } from '../../services/netatmo.service';
-import { Station, StationDisplay } from '../../models/station';
+import { Station } from '../../models/station';
 import { User, UserDisplay } from '../../models/user';
 import { AuthorizeDialogComponent } from '../../components/authorize-dialog/authorize-dialog.component';
+import { Display } from '../../models/display';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,7 @@ import { AuthorizeDialogComponent } from '../../components/authorize-dialog/auth
 })
 export class HomeComponent implements OnInit {
   user$: Observable<UserDisplay>;
-  stations$: Observable<StationDisplay[]>;
+  stations$: Observable<Display<Station>[]>;
   authorizeError: string | null = null;
   selectedStation: string | null = null;
   private readonly logoutSubject = new Subject<void>();

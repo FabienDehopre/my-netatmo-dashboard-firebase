@@ -10,7 +10,3 @@ export interface Station {
     altitude: number;
   };
 }
-
-export interface StationDisplay extends Station {
-  id: string;
-}

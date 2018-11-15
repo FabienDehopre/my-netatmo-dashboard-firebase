@@ -1,7 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { map, takeUntil, combineLatest, switchMap } from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { User } from '../../models/user';
+import { Station } from '../../models/station';
+import { Display } from '../../models/display';
+import { Device } from '../../models/device';
 
 @Component({
   selector: 'app-station',
@@ -10,16 +16,36 @@ import { Subject } from 'rxjs';
 })
 export class StationComponent implements OnInit, OnDestroy {
   private readonly stop$ = new Subject();
+  station$: Observable<Display<Station>>;
+  devices$: Observable<Display<Device>[]>;
 
-  constructor(private readonly activatedRoute: ActivatedRoute) {}
+  constructor(
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly afAuth: AngularFireAuth,
+    private readonly afs: AngularFirestore
+  ) {}
 
   ngOnInit() {
-    this.activatedRoute.paramMap
-      .pipe(
-        map(x => x.get('stationId')),
-        takeUntil(this.stop$)
-      )
-      .subscribe(x => console.log(x));
+    this.station$ = this.activatedRoute.paramMap.pipe(
+      map(paramMap => paramMap.get('stationId')),
+      combineLatest(this.afAuth.user.pipe(map(user => user.uid))),
+      switchMap(([stationId, uid]) =>
+        this.afs
+          .collection('users')
+          .doc<User>(uid)
+          .collection('stations')
+          .doc<Station>(stationId)
+          .snapshotChanges()
+          .pipe(
+            map(snap => {
+              const data = snap.payload.data();
+              const id = snap.payload.id;
+              return { id, ...data };
+            })
+          )
+      ),
+      takeUntil(this.stop$)
+    );
   }
 
   ngOnDestroy(): void {

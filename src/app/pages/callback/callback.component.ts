@@ -6,7 +6,7 @@ import { combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { User } from '../../models/user';
 import { NetatmoService } from '../../services/netatmo.service';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-callback',
