@@ -24,7 +24,7 @@ import {
 
 admin.initializeApp();
 
-export const fetchAndUpdate = functions.https.onRequest(async (req, res) => {
+export const fetchAndUpdatePubSub = functions.pubsub.topic('netatmo').onPublish(async () => {
   try {
     const snapshot = await admin
       .firestore()
@@ -40,7 +40,9 @@ export const fetchAndUpdate = functions.https.onRequest(async (req, res) => {
         console.log('user is enabled');
         if (user.expires_at <= Date.now()) {
           console.log('user access token is expired');
-          const result = await refreshToken(user.refresh_token, user.client_id, user.client_secret);
+          const client_id = functions.config().netatmo.client_id;
+          const client_secret = functions.config().netatmo.client_secret;
+          const result = await refreshToken(user.refresh_token, client_id, client_secret);
           user.access_token = result.access_token;
           user.refresh_token = result.refresh_token;
           user.expires_at = Date.now() + result.expires_in * 1000;
@@ -231,10 +233,8 @@ export const fetchAndUpdate = functions.https.onRequest(async (req, res) => {
     }
 
     console.log('done');
-    return res.json(count);
   } catch (err) {
     console.error('An error occurred', err);
-    return res.status(500).send(err);
   }
 });
 
