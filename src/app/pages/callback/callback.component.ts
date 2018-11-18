@@ -6,7 +6,6 @@ import { combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { User } from '../../models/user';
 import { NetatmoService } from '../../services/netatmo.service';
-import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-callback',
@@ -40,8 +39,6 @@ export class CallbackComponent implements OnInit {
               access_token: authCode.access_token,
               expires_at: new Date(Date.now() + authCode.expires_in * 1000).valueOf(),
               refresh_token: authCode.refresh_token,
-              client_id: environment.netatmo.clientId,
-              client_secret: environment.netatmo.clientSecret,
             },
             { merge: true }
           );

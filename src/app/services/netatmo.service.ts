@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { NetatmoAuthorization } from '../models/netatmo-authorization';
+import { randomString } from '../utils/random-string';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class NetatmoService {
   constructor(private readonly http: HttpClient) {}
 
   buildAuthorizationUrl(): string {
-    const state = 'dskfjqisfmjioeznf';
+    const state = randomString();
     sessionStorage.setItem('netatmo_state', state);
     return `https://api.netatmo.com/oauth2/authorize?client_id=${environment.netatmo.clientId}&redirect_uri=${
       environment.netatmo.redirectUri
