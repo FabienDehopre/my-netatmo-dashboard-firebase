@@ -10,13 +10,13 @@ function getRandomBytes(n: number): Uint8Array {
 }
 
 function extend<T, U>(first: T, second: U): T & U {
-  const result = <T & U>{};
-  for (const id in first) {
-    if (id in first) {
-      (<any>result)[id] = (<any>first)[id];
-    }
-  }
-
+  // const result = <T & U>{};
+  // for (const id in first) {
+  //   if (id in first) {
+  //     (<any>result)[id] = (<any>first)[id];
+  //   }
+  // }
+  const result = <T & U>first;
   for (const id in second) {
     if (!result.hasOwnProperty(id)) {
       (<any>result)[id] = (<any>second)[id];
