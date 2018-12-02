@@ -112,6 +112,7 @@ export class HomeComponent implements OnInit {
 
   logout(): void {
     this.logoutSubject.next();
+    this.logoutSubject.complete();
     this.afAuth.auth.signOut().then(() => this.router.navigate(['/']));
   }
 

@@ -46,9 +46,32 @@ export class StationComponent implements OnInit, OnDestroy {
       ),
       takeUntil(this.stop$)
     );
+    this.devices$ = this.activatedRoute.paramMap.pipe(
+      map(paramMap => paramMap.get('stationId')),
+      combineLatest(this.afAuth.user.pipe(map(user => user.uid))),
+      switchMap(([stationId, uid]) =>
+        this.afs
+          .collection('users')
+          .doc<User>(uid)
+          .collection('stations')
+          .doc<Station>(stationId)
+          .collection('devices')
+          .snapshotChanges()
+          .pipe(
+            map(coll =>
+              coll.map(doc => {
+                const data = doc.payload.doc.data() as Device;
+                const id = doc.payload.doc.id;
+                return { id, ...data };
+              })
+            )
+          )
+      )
+    );
   }
 
   ngOnDestroy(): void {
     this.stop$.next();
+    this.stop$.complete();
   }
 }
