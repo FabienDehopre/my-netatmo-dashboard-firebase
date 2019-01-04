@@ -1,51 +1,73 @@
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { AngularFireFunctionsModule, FunctionsRegionToken } from '@angular/fire/functions';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { firebase, firebaseui, FirebaseUIModule } from 'firebaseui-angular';
+
+import { environment } from '../environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { environment } from '../environments/environment';
-import { LoginComponent } from './pages/login/login.component';
-import { HomeComponent } from './pages/home/home.component';
-import { CallbackComponent } from './pages/callback/callback.component';
 import { AuthorizeDialogComponent } from './components/authorize-dialog/authorize-dialog.component';
-import { LayoutComponent } from './pages/layout/layout.component';
-import { UserComponent } from './components/user/user.component';
-import { WindUnitPipe } from './pipes/wind-unit.pipe';
-import { PressureUnitPipe } from './pipes/pressure-unit.pipe';
-import { UnitPipe } from './pipes/unit.pipe';
-import { StationComponent } from './pages/station/station.component';
+import { CallbackErrorDialogComponent } from './components/callback-error-dialog/callback-error-dialog.component';
+import { IndoorModuleComponent } from './components/indoor-module/indoor-module.component';
+import { LayoutComponent } from './components/layout/layout.component';
+import { LocationComponent } from './components/location/location.component';
+import { MainModuleComponent } from './components/main-module/main-module.component';
+import { OutdoorModuleComponent } from './components/outdoor-module/outdoor-module.component';
+import { RainGaugeModuleComponent } from './components/rain-gauge-module/rain-gauge-module.component';
+import { StationComponent } from './components/station/station.component';
+import { WindGaugeModuleComponent } from './components/wind-gauge-module/wind-gauge-module.component';
+import { MaterialModule } from './material.module';
+import { CallbackComponent } from './pages/callback/callback.component';
+import { HomeComponent } from './pages/home/home.component';
+import { LoginComponent } from './pages/login/login.component';
+import { LogoutComponent } from './pages/logout.component';
+import { AltitudePipe } from './pipes/altitude.pipe';
+import { CountryPipe } from './pipes/country.pipe';
+import { InjectorRef } from './services/injector-ref';
+
+const firebaseUiAuthConfig: firebaseui.auth.Config = {
+  signInFlow: 'popup',
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+    firebase.auth.GithubAuthProvider.PROVIDER_ID,
+    {
+      requireDisplayName: false,
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+    },
+  ],
+  tosUrl: '/todo-tos',
+  privacyPolicyUrl: '/todo-privacy',
+  credentialHelper: firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+};
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     HomeComponent,
+    LoginComponent,
     CallbackComponent,
-    AuthorizeDialogComponent,
+    LogoutComponent,
     LayoutComponent,
-    UserComponent,
-    WindUnitPipe,
-    PressureUnitPipe,
-    UnitPipe,
+    AuthorizeDialogComponent,
+    CallbackErrorDialogComponent,
     StationComponent,
+    LocationComponent,
+    CountryPipe,
+    AltitudePipe,
+    MainModuleComponent,
+    OutdoorModuleComponent,
+    IndoorModuleComponent,
+    WindGaugeModuleComponent,
+    RainGaugeModuleComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,21 +77,17 @@ import { StationComponent } from './pages/station/station.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    AngularFireFunctionsModule,
     HttpClientModule,
-    FlexLayoutModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatListModule,
-    MatMenuModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatTabsModule,
-    MatToolbarModule,
+    FirebaseUIModule.forRoot(firebaseUiAuthConfig),
+    MaterialModule,
   ],
-  entryComponents: [AuthorizeDialogComponent],
   bootstrap: [AppComponent],
+  entryComponents: [AuthorizeDialogComponent, CallbackErrorDialogComponent],
+  providers: [{ provide: FunctionsRegionToken, useValue: 'us-central1' }],
 })
-export class AppModule {}
+export class AppModule {
+  // tslint:disable-next-line:no-unused-variable
+  // @ts-ignore
+  constructor(injectorRef: InjectorRef) {}
+}

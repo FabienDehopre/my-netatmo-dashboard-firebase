@@ -1,0 +1,113 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm><mat-icon>menu</mat-icon></button>
+    <span>My Netatmo Dashboard</span> <span class="app-layout__spacer"></span>
+    <div fxShow="true" fxHide.lt-md="true">
+      <button mat-button [matMenuTriggerFor]="stationMenu" *ngIf="stations?.length > 1">Stations</button>
+      <button mat-button [matMenuTriggerFor]="themeChooser"><mat-icon>format_color_fill</mat-icon></button>
+      <button mat-button [matMenuTriggerFor]="userMenu" *ngIf="(userService.user$ | async) as user">
+        {{ user.name || user.email || 'N/A' }} <img *ngIf="user.avatar" [src]="user.avatar" [alt]="user.name" class="app-layout__avatar" />
+      </button>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container fxFlexFill>
+  <mat-sidenav #sidenav>
+    <mat-nav-list>
+      <ng-container *ngIf="stations?.length > 1">
+        <h3 mat-subheader>Stations</h3>
+        <a
+          href="javascript:void(0)"
+          mat-list-item
+          *ngFor="let station of stations"
+          [class.app-layout__station--selected]="station.id === selectedStationId"
+          (click)="selectStation(station.id)"
+          >{{ station.name }}</a
+        >
+        <mat-divider></mat-divider>
+      </ng-container>
+      <h3 mat-subheader>Theme</h3>
+      <a
+        href="javascript:void(0)"
+        mat-list-item
+        class="app-layout__theme-btn"
+        [class.app-layout__theme-btn--selected]="themeService.isDarkTheme"
+        (click)="setTheme(false); sidenav.toggle()"
+      >
+        <i class="app-layout__theme-icon app-layout__theme-icon--dark"></i> Dark
+      </a>
+      <a
+        href="javascript:void(0)"
+        mat-list-item
+        class="app-layout__theme-btn"
+        [class.app-layout__theme-btn--selected]="themeService.isLightTheme"
+        (click)="setTheme(true); sidenav.toggle()"
+      >
+        <i class="app-layout__theme-icon app-layout__theme-icon--light"></i> Light
+      </a>
+      <ng-container *ngIf="(userService.user$ | async) as user">
+        <mat-divider></mat-divider>
+        <h3 mat-subheader>
+          <img *ngIf="user.avatar" [src]="user.avatar" [alt]="user.name" class="app-layout__avatar app-layout__avatar--sidenav" />
+          {{ user.name || user.email || 'N/A' }}
+        </h3>
+        <a mat-list-item [routerLink]="['/profile']">
+          <mat-icon>account_circle</mat-icon>
+          My profile
+        </a>
+        <a mat-list-item [routerLink]="['/logout']">
+          <mat-icon>power_settings_new</mat-icon>
+          Logout
+        </a>
+      </ng-container>
+      <mat-divider></mat-divider>
+      <a href="javascript:void(0)" mat-list-item (click)="sidenav.toggle()">
+        <mat-icon>close</mat-icon>
+        Close
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content fxFlexFill>
+    <div class="app-layout__content"><ng-content></ng-content></div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<mat-menu #themeChooser="matMenu">
+  <button
+    mat-menu-item
+    class="app-layout__theme-btn"
+    [class.app-layout__theme-btn--selected]="themeService.isDarkTheme"
+    (click)="setTheme(false)"
+  >
+    <i class="app-layout__theme-icon app-layout__theme-icon--dark"></i> Dark
+  </button>
+  <button
+    mat-menu-item
+    class="app-layout__theme-btn"
+    [class.app-layout__theme-btn--selected]="themeService.isLightTheme"
+    (click)="setTheme(true)"
+  >
+    <i class="app-layout__theme-icon app-layout__theme-icon--light"></i> Light
+  </button>
+</mat-menu>
+<mat-menu #userMenu="matMenu">
+  <a mat-menu-item [routerLink]="['/profile']">
+    <mat-icon>account_circle</mat-icon>
+    My profile
+  </a>
+  <mat-divider></mat-divider>
+  <a mat-menu-item [routerLink]="['/logout']">
+    <mat-icon>power_settings_new</mat-icon>
+    Logout
+  </a>
+</mat-menu>
+<mat-menu #stationMenu="matMenu">
+  <button
+    mat-menu-item
+    *ngFor="let station of stations"
+    [class.app-layout__station--selected]="station.id === selectedStationId"
+    (click)="selectStation(station.id)"
+  >
+    {{ station.name }}
+  </button>
+</mat-menu>

@@ -1,4 +1,18 @@
+import {
+  MainDashboardData,
+  IndoorDashboardData,
+  OutdoorDashboardData,
+  WindGaugeDashboardData,
+  RainGaugeDashboardData,
+  HistoricMainDashboardData,
+  HistoricOutdoorDashboardData,
+  HistoricWindGaugeDashboardData,
+  HistoricRainGaugeDashboardData,
+  HistoricIndoorDashboardData,
+} from './dashboard-data';
+
 export interface Device {
+  id: string;
   name: string;
   firmware: number;
   type: 'NAMain' | 'NAModule1' | 'NAModule2' | 'NAModule3' | 'NAModule4';
@@ -7,6 +21,8 @@ export interface Device {
 export interface MainDevice extends Device {
   type: 'NAMain';
   wifiStatus: number;
+  current: MainDashboardData;
+  last24hHistoric: HistoricMainDashboardData[];
 }
 
 export interface ModuleDevice extends Device {
@@ -16,20 +32,34 @@ export interface ModuleDevice extends Device {
     vp: number;
     percent: number;
   };
+  current: OutdoorDashboardData | WindGaugeDashboardData | RainGaugeDashboardData | IndoorDashboardData;
+  last24hHistoric: (
+    | HistoricOutdoorDashboardData
+    | HistoricWindGaugeDashboardData
+    | HistoricRainGaugeDashboardData
+    | HistoricIndoorDashboardData)[];
 }
 
 export interface OutdoorModuleDevice extends ModuleDevice {
   type: 'NAModule1';
+  current: OutdoorDashboardData;
+  last24hHistoric: HistoricOutdoorDashboardData[];
 }
 
 export interface WindGaugeModuleDevice extends ModuleDevice {
   type: 'NAModule2';
+  current: WindGaugeDashboardData;
+  last24hHistoric: HistoricWindGaugeDashboardData[];
 }
 
 export interface RainGaugeModuleDevice extends ModuleDevice {
   type: 'NAModule3';
+  current: RainGaugeDashboardData;
+  last24hHistoric: HistoricRainGaugeDashboardData[];
 }
 
 export interface IndoorModuleDevice extends ModuleDevice {
   type: 'NAModule4';
+  current: IndoorDashboardData;
+  last24hHistoric: HistoricIndoorDashboardData[];
 }

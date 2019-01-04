@@ -1,12 +1,17 @@
-import * as firebase from 'firebase/app';
+import { Device } from './device';
+import { Location } from './location';
 
 export interface Station {
   name: string;
-  location: {
-    country: string;
-    city: string;
-    timezone: string;
-    location: firebase.firestore.GeoPoint;
-    altitude: number;
-  };
+  location: Location;
+  devices: Device[];
+}
+
+export interface StationVM extends Station {
+  id: string;
+}
+
+export interface StationMenuItem {
+  id: string;
+  name: string;
 }

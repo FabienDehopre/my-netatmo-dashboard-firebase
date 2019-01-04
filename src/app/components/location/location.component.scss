@@ -1,0 +1,12 @@
+.app-location__info {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+}
+
+.app-location__label {
+  font-weight: 600;
+}
+
+.app-location__data {
+  font-style: italic;
+}

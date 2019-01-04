@@ -16,10 +16,10 @@ function extend<T, U>(first: T, second: U): T & U {
   //     (<any>result)[id] = (<any>first)[id];
   //   }
   // }
-  const result = <T & U>first;
+  const result = first as T & U;
   for (const id in second) {
     if (!result.hasOwnProperty(id)) {
-      (<any>result)[id] = (<any>second)[id];
+      (result as any)[id] = (second as any)[id];
     }
   }
 

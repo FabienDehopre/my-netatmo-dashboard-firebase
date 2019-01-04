@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>An error occurred</h1>
+<div mat-dialog-content>
+  <p>An error occurred while completing the authorization process.</p>
+  <p>The error message is: {{ data.message }}.</p>
+  <p>
+    Since the authorization process fail, you cannot continue further and will be disconnected. If you think it's an error on our side,
+    please <a href="mailto:my-netatmo-dashboard@dehopre.com?subject=Callback Error&body={{ body }}">contact us</a> with the error message.
+  </p>
+</div>
+<div mat-dialog-actions class="app-callback-error-dialog__actions"><button mat-button color="primary" (click)="close()">OK</button></div>

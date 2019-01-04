@@ -1,0 +1,16 @@
+<mat-card>
+  <mat-card-title>Location</mat-card-title>
+  <img mat-card-image [src]="location.staticMap" />
+  <mat-card-content>
+    <dl class="app-location__info">
+      <dt class="app-location__label">Country:</dt>
+      <dd class="app-location__data">{{ location.country | country: 'en' | async }}</dd>
+      <dt class="app-location__label">City:</dt>
+      <dd class="app-location__data">{{ location.city }}</dd>
+      <dt class="app-location__label">Altitude:</dt>
+      <dd class="app-location__data">{{ location.altitude | altitude: units.unit }}</dd>
+      <dt class="app-location__label">Timezone:</dt>
+      <dd class="app-location__data">{{ location.timezone }}</dd>
+    </dl>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,54 @@
+version: 2
+jobs:
+  app-lint-check:
+    docker:
+      - image: circleci/node:10.15
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Lint Typescript files
+          command: npm run lint:check
+  app-stylelint-check:
+    docker:
+      - image: circleci/node:10.15
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Lint sass files
+          command: npm run stylelint:check
+  app-format-check:
+    docker:
+      - image: circleci/node:10.15
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Check code formating using prettier
+          command: npm run format:check
+  app-build:
+    docker:
+      - image: circleci/node:10.15
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Build app using Angular CLI
+          command: npm run build
+workflows:
+  version: 2
+  check-app:
+    jobs:
+      - app-lint-check
+      - app-stylelint-check
+      - app-format-check
+      - app-build

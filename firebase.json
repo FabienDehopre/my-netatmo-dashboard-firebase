@@ -3,6 +3,7 @@
     "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run lint", "npm --prefix \"$RESOURCE_DIR\" run build"]
   },
   "hosting": {
+    "predeploy": ["npm run build"],
     "public": "dist/my-netatmo-dashboard",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [

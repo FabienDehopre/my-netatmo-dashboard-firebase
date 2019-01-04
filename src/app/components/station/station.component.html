@@ -1,0 +1,11 @@
+<ng-template [ngIf]="station != null && units != null">
+  <app-location [location]="station.location" [units]="units"></app-location>
+  <div *ngFor="let device of station.devices" [ngSwitch]="device.type">
+    <app-main-module *ngSwitchCase="'NAMain'" [device]="device" [units]="units"></app-main-module>
+    <app-outdoor-module *ngSwitchCase="'NAModule1'" [device]="device" [units]="units"></app-outdoor-module>
+    <app-wind-gauge-module *ngSwitchCase="'NAModule2'" [device]="device" [units]="units"></app-wind-gauge-module>
+    <app-rain-gauge-module *ngSwitchCase="'NAModule3'" [device]="device" [units]="units"></app-rain-gauge-module>
+    <app-indoor-module *ngSwitchCase="'NAModule4'" [device]="device" [units]="units"></app-indoor-module>
+  </div>
+</ng-template>
+<pre>{{ units | json }}</pre>

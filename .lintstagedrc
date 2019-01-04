@@ -1,5 +1,19 @@
 {
-  "*.ts": ["prettier --write", "git add"],
-  "*.scss": ["prettier --write", "git add"],
+  "src/**/!(test|*.spec).ts": [
+    "tslint -c src/tslint.json -t stylish -p src/tsconfig.app.json --fix",
+    "prettier --write",
+    "git add"
+  ],
+  "src/**/(test|*.spec).ts": [
+    "tslint -c src/tslint.json -t stylish -p src/tsconfig.spec.json --fix",
+    "prettier --write",
+    "git add"
+  ],
+  "e2e/src/**/*.ts": [
+    "tslint -c tslint.json -t stylish -p e2e/tsconfig.e2e.json --fix",
+    "prettier --write",
+    "git add"
+  ],
+  "*.scss": ["stylelint --fix", "prettier --write", "git add"],
   "*.{js,json,html,md}": ["prettier --write", "git add"]
 }

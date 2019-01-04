@@ -201,3 +201,25 @@ html,
 body {
   margin: 0 auto;
 }
+
+.theme-alternate .snack-bar-failure,
+.snack-bar-failure {
+  background: map-get($mat-warn, main);
+  color: map-get(map-get($mat-warn, contrast), main);
+  padding: 16px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__title {
+    display: block;
+    font-size: 1.5em;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+
+  &__message {
+    display: block;
+    // TODO
+  }
+}

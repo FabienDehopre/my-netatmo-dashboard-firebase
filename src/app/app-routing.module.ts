@@ -1,33 +1,27 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+
+import { AuthGuard } from './guards/auth.guard';
 import { CallbackComponent } from './pages/callback/callback.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
-import { AuthGuard } from './guards/auth.guard';
-import { LayoutComponent } from './pages/layout/layout.component';
-import { StationComponent } from './pages/station/station.component';
+import { LogoutComponent } from './pages/logout.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
   {
     path: '',
-    component: LayoutComponent,
     children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'callback', component: CallbackComponent, canActivate: [AuthGuard] },
-      {
-        path: 'dashboard',
-        component: HomeComponent,
-        canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
-        children: [{ path: ':stationId', component: StationComponent }],
-      },
+      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'callback', component: CallbackComponent },
+      { path: 'logout', component: LogoutComponent },
     ],
+    canActivateChild: [AuthGuard],
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload', enableTracing: true })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

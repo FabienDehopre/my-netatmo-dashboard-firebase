@@ -1,8 +1,9 @@
-import * as firebase from 'firebase/app';
+import { Timestamp } from 'firebase/firestore';
 
 export interface DashboardData {
-  timeUtc: firebase.firestore.Timestamp;
+  timeUtc: Timestamp;
   type: 'NAMain' | 'NAModule1' | 'NAModule2' | 'NAModule3' | 'NAModule4';
+  deviceId: string;
 }
 
 export type Trend = 'up' | 'down' | 'stable';
@@ -11,11 +12,11 @@ export interface TemperatureData {
   current: number;
   min: {
     value: number;
-    timeUtc: firebase.firestore.Timestamp;
+    timeUtc: Timestamp;
   };
   max: {
     value: number;
-    timeUtc: firebase.firestore.Timestamp;
+    timeUtc: Timestamp;
   };
   trend: Trend;
 }
@@ -33,11 +34,13 @@ export interface MainDashboardData extends DashboardData {
   noise: number;
 }
 
-export interface IndoorDashboardData extends DashboardData {
-  type: 'NAModule4';
-  temperature: TemperatureData;
+export interface HistoricMainDashboardData {
+  timeUtc: Timestamp;
+  temperature: number;
+  pressure: number;
   co2: number;
   humidity: number;
+  noise: number;
 }
 
 export interface OutdoorDashboardData extends DashboardData {
@@ -46,12 +49,51 @@ export interface OutdoorDashboardData extends DashboardData {
   humidity: number;
 }
 
+export interface HistoricOutdoorDashboardData {
+  timeUtc: Timestamp;
+  temperature: number;
+  humidity: number;
+}
+
 export interface WindGaugeDashboardData extends DashboardData {
   type: 'NAModule2';
-  // TODO: the doc is not really precise so I'll wait until I have a Wind Gauge module
+  windStrength: number;
+  windAngle: number;
+  gustStrength: number;
+  gustAngle: number;
+  windHistoric: Array<{ windStrength: number; windAngle: number }>;
+}
+
+export interface HistoricWindGaugeDashboardData {
+  timeUtc: Timestamp;
+  windStrength: number;
+  windAngle: number;
+  gustStrength: number;
+  gustAngle: number;
 }
 
 export interface RainGaugeDashboardData extends DashboardData {
   type: 'NAModule3';
-  // TODO: the doc is not really precise so I'll wait until I have a Rain Gauge module
+  rain: number;
+  sum1h: number;
+  sum24h: number;
+}
+
+export interface HistoricRainGaugeDashboardData {
+  timeUtc: Timestamp;
+  rain: number;
+}
+
+export interface IndoorDashboardData extends DashboardData {
+  type: 'NAModule4';
+  temperature: TemperatureData;
+  co2: number;
+  humidity: number;
+}
+
+export interface HistoricIndoorDashboardData {
+  timeUtc: Timestamp;
+  temperature: number;
+  co2: number;
+  humidity: number;
 }

@@ -1,18 +1,18 @@
 :host {
-  height: 100vh;
   display: block;
+  height: 100vh;
 }
 
-.example-icon {
+.app-home__icon {
   padding: 0 14px;
 }
 
-.example-spacer {
+.app-home__spacer {
   flex: 1 1 auto;
 }
 
-.avatar {
-  border-radius: 6px;
+.app-home_avatar {
   width: 38px;
   margin-left: 4px;
+  border-radius: 6px;
 }

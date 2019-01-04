@@ -1,5 +1,7 @@
 import { firestore } from 'firebase-admin';
 
+import { Device } from './device';
+
 export interface Station {
   name: string;
   location: {
@@ -8,5 +10,7 @@ export interface Station {
     timezone: string;
     location: firestore.GeoPoint;
     altitude: number;
+    staticMap?: string;
   };
+  devices: Device[];
 }
