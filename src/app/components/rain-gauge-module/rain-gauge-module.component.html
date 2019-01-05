@@ -1,3 +1,8 @@
-<h1>Rain Gauge</h1>
-<pre>{{ device | json }}</pre>
->
+<h1>Rain Gauge Module</h1>
+<fa-icon
+  [icon]="device?.battery | battery: device?.type:'icon'"
+  size="2x"
+  [ngClass]="device?.battery | battery: device?.type:'cssClass'"
+  [matTooltip]="device?.battery.percent + '%'"
+></fa-icon>
+<pre class="app-rain-gauge-module__pre">{{ device | json }}</pre>

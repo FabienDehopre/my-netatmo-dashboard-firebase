@@ -7,6 +7,7 @@ import { AngularFireFunctionsModule, FunctionsRegionToken } from '@angular/fire/
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { firebase, firebaseui, FirebaseUIModule } from 'firebaseui-angular';
 
 import { environment } from '../environments/environment';
@@ -29,6 +30,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { LogoutComponent } from './pages/logout.component';
 import { AltitudePipe } from './pipes/altitude.pipe';
+import { BatteryPipe } from './pipes/battery.pipe';
 import { CountryPipe } from './pipes/country.pipe';
 import { InjectorRef } from './services/injector-ref';
 
@@ -68,6 +70,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     IndoorModuleComponent,
     WindGaugeModuleComponent,
     RainGaugeModuleComponent,
+    BatteryPipe,
   ],
   imports: [
     BrowserModule,
@@ -81,6 +84,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     HttpClientModule,
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
     MaterialModule,
+    FontAwesomeModule,
   ],
   bootstrap: [AppComponent],
   entryComponents: [AuthorizeDialogComponent, CallbackErrorDialogComponent],

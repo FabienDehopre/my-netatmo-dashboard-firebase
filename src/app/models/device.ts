@@ -1,3 +1,4 @@
+import { Battery } from './battery';
 import {
   HistoricIndoorDashboardData,
   HistoricMainDashboardData,
@@ -28,10 +29,7 @@ export interface MainDevice extends Device {
 export interface ModuleDevice extends Device {
   type: 'NAModule1' | 'NAModule2' | 'NAModule3' | 'NAModule4';
   rfStatus: number;
-  battery: {
-    vp: number;
-    percent: number;
-  };
+  battery: Battery;
   current: OutdoorDashboardData | WindGaugeDashboardData | RainGaugeDashboardData | IndoorDashboardData;
   last24hHistoric: Array<
     HistoricOutdoorDashboardData | HistoricWindGaugeDashboardData | HistoricRainGaugeDashboardData | HistoricIndoorDashboardData
