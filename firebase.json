@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "predeploy": ["npm run build"],
+    "predeploy": ["npm run lint:check", "npm run stylelint:check", "npm run format:check", "npm run build"],
     "public": "dist/my-netatmo-dashboard",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
