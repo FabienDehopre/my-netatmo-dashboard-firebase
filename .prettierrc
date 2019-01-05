@@ -1,5 +1,27 @@
 {
   "printWidth": 140,
   "singleQuote": true,
-  "trailingComma": "es5"
+  "trailingComma": "es5",
+  "overrides": [
+    {
+      "files": ".commitlintrc",
+      "options": { "parser": "json" }
+    },
+    {
+      "files": ".firebaserc",
+      "options": { "parser": "json" }
+    },
+    {
+      "files": ".huskyrc",
+      "options": { "parser": "json" }
+    },
+    {
+      "files": ".lintstagedrc",
+      "options": { "parser": "json" }
+    },
+    {
+      "files": ".stylelintrc",
+      "options": { "parser": "json" }
+    }
+  ]
 }

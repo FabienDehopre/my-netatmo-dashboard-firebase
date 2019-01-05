@@ -2,10 +2,5 @@ version: 2
 dependencies:
   - type: js
     settings:
-      commit_message_prefix: "chore(app): "
-      github_base_branch: master
-  - type: js
-    path: functions
-    settings:
-      commit_message_prefix: "chore(functions): "
+      commit_message_prefix: 'build: '
       github_base_branch: master

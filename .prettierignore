@@ -1,3 +1,7 @@
 dist
 .firebase
 node_modules
+.editorconfig
+.gitignore
+.prettierignore
+.stylelintignore

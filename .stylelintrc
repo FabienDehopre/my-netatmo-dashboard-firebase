@@ -4,16 +4,22 @@
     "string-quotes": "single",
     "custom-media-pattern": "^app?-.+",
     "custom-property-pattern": "^app?-.+",
-    "selector-class-pattern": ["^app?-.+", {
-      "resolveNestedSelectors": true
-    }],
+    "selector-class-pattern": [
+      "^app?-.+",
+      {
+        "resolveNestedSelectors": true
+      }
+    ],
     "selector-id-pattern": "^app?-.+",
     "plugin/selector-bem-pattern": {
       "componentSelectors": "^\\.app?-{componentName}(?:__[a-z]+(?:-[a-z]+)*)*(?:--[a-z]+(?:-[a-z]+)*)*(?:\\[.+\\])*$"
     },
-    "scss/dollar-variable-pattern": ["^_?app-.+", {
-      "ignore": "local"
-    }],
+    "scss/dollar-variable-pattern": [
+      "^_?app-.+",
+      {
+        "ignore": "local"
+      }
+    ],
     "scss/at-function-pattern": "^app-.+",
     "scss/at-mixin-pattern": "^app-.+"
   }
