@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  app-lint-check:
+  lint-check:
     docker:
       - image: circleci/node:10.15
     steps:
@@ -11,7 +11,7 @@ jobs:
       - run:
           name: Lint Typescript files
           command: npm run lint:check
-  app-stylelint-check:
+  stylelint-check:
     docker:
       - image: circleci/node:10.15
     steps:
@@ -22,7 +22,7 @@ jobs:
       - run:
           name: Lint sass files
           command: npm run stylelint:check
-  app-format-check:
+  format-check:
     docker:
       - image: circleci/node:10.15
     steps:
@@ -33,7 +33,7 @@ jobs:
       - run:
           name: Check code formating using prettier
           command: npm run format:check
-  app-build:
+  build:
     docker:
       - image: circleci/node:10.15
     steps:
@@ -48,7 +48,7 @@ workflows:
   version: 2
   check-app:
     jobs:
-      - app-lint-check
-      - app-stylelint-check
-      - app-format-check
-      - app-build
+      - lint-check
+      - stylelint-check
+      - format-check
+      - build
