@@ -35,20 +35,21 @@ import { CountryPipe } from './pipes/country.pipe';
 import { InjectorRef } from './services/injector-ref';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
-  signInFlow: 'popup',
+  signInFlow: 'redirect', // 'popup',
   signInOptions: [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-    firebase.auth.GithubAuthProvider.PROVIDER_ID,
     {
-      requireDisplayName: false,
-      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      authMethod: 'https://accounts.google.com',
+      clientId: '252006230321-vijp8et46l5vnfcsj3t7m5e543pdo4pg.apps.googleusercontent.com',
     },
+    // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+    // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+    // firebase.auth.GithubAuthProvider.PROVIDER_ID,
+    firebase.auth.EmailAuthProvider.PROVIDER_ID,
   ],
   tosUrl: '/todo-tos',
   privacyPolicyUrl: '/todo-privacy',
-  credentialHelper: firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM,
+  credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
 };
 
 @NgModule({
