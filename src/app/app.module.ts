@@ -8,7 +8,6 @@ import { FormsModule } from '@angular/forms';
 import { MatIconRegistry } from '@angular/material/icon';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { firebase, firebaseui, FirebaseUIModule } from 'firebaseui-angular';
 
 import { environment } from '../environments/environment';
@@ -16,6 +15,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthorizeDialogComponent } from './components/authorize-dialog/authorize-dialog.component';
+import { BatteryComponent } from './components/battery/battery.component';
 import { CallbackErrorDialogComponent } from './components/callback-error-dialog/callback-error-dialog.component';
 import { IndoorModuleComponent } from './components/indoor-module/indoor-module.component';
 import { LayoutComponent } from './components/layout/layout.component';
@@ -31,7 +31,6 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { LogoutComponent } from './pages/logout.component';
 import { AltitudePipe } from './pipes/altitude.pipe';
-import { BatteryPipe } from './pipes/battery.pipe';
 import { CountryPipe } from './pipes/country.pipe';
 import { InjectorRef } from './services/injector-ref';
 
@@ -72,7 +71,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     IndoorModuleComponent,
     WindGaugeModuleComponent,
     RainGaugeModuleComponent,
-    BatteryPipe,
+    BatteryComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,7 +85,6 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     HttpClientModule,
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
     MaterialModule,
-    FontAwesomeModule,
   ],
   bootstrap: [AppComponent],
   entryComponents: [AuthorizeDialogComponent, CallbackErrorDialogComponent],
