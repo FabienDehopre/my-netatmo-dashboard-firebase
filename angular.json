@@ -51,7 +51,10 @@
           "options": {
             "browserTarget": "my-netatmo-dashboard:build",
             "aot": true,
-            "host": "0.0.0.0"
+            "host": "0.0.0.0",
+            "ssl": true,
+            "sslCert": "../localhost+3.pem",
+            "sslKey": "../localhost+3-key.pem"
           },
           "configurations": {
             "production": {
