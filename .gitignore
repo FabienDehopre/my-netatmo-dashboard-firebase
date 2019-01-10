@@ -45,3 +45,6 @@ Thumbs.db
 # Firebase
 .firebase/
 functions/lib/
+
+# Material Design Icons
+src/assets/mdi.svg

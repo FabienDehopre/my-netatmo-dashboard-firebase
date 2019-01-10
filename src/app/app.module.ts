@@ -5,7 +5,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireFunctionsModule, FunctionsRegionToken } from '@angular/fire/functions';
 import { FormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material/icon';
+import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { firebase, firebaseui, FirebaseUIModule } from 'firebaseui-angular';
@@ -94,5 +95,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
 export class AppModule {
   // tslint:disable-next-line:no-unused-variable
   // @ts-ignore
-  constructor(injectorRef: InjectorRef) {}
+  constructor(injectorRef: InjectorRef, matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer) {
+    matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('./assets/mdi.svg'));
+    // matIconRegistry.addSvgIconSetInNamespace('mdi', domSanitizer.bypassSecurityTrustResourceUrl('./assets/mdi.svg'));
+  }
 }
