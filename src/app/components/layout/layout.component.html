@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="app-layout__toolbar--fixed">
   <mat-toolbar-row>
     <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm><mat-icon>menu</mat-icon></button>
     <span>My Netatmo Dashboard</span> <span class="app-layout__spacer"></span>
@@ -11,8 +11,8 @@
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
-<mat-sidenav-container fxFlexFill>
-  <mat-sidenav #sidenav>
+<mat-sidenav-container class="app-layout__container" fxFlexFill>
+  <mat-sidenav class="app-layout__sidenav" #sidenav>
     <mat-nav-list>
       <ng-container *ngIf="stations?.length > 1">
         <h3 mat-subheader>Stations</h3>

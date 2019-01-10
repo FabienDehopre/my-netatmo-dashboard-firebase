@@ -1,7 +1,16 @@
-:host {
-  display: block;
-  width: 100vw;
-  min-height: 100vh;
+.app-layout__toolbar--fixed {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+}
+
+.app-layout__container,
+.app-layout__sidenav {
+  padding-top: 64px;
+
+  @media (max-width: 599px) {
+    padding-top: 56px;
+  }
 }
 
 .app-layout__spacer {
@@ -9,7 +18,7 @@
 }
 
 .app-layout__content {
-  padding: 20px 50px 50px 20px;
+  padding: 20px 20px 0;
 }
 
 .app-layout__theme-btn {
