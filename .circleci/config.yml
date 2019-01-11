@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           name: Show current branch
-          command: echo ${CICLE_BRANCH}
+          command: echo ${CIRCLE_BRANCH}
       - run:
           name: Show current directory
           command: pwd
