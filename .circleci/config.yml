@@ -49,9 +49,9 @@ jobs:
           name: Show current branch
           command: echo ${CIRCLE_BRANCH}
       - restore_cache:
-          keys:
-            - v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
-            - v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          key: v1-dependencies-{{ checksum "package.json" }}
       - run:
           name: Deploy Master to Firebase
           command: npm run deploy -- --token=$FIREBASE_TOKEN
