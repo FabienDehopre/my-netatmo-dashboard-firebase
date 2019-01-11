@@ -15,7 +15,7 @@
     "format:check": "prettier --list-different **/*.{ts,scss,html,json,js,md} .*",
     "stylelint": "stylelint --fix src/**/*.scss",
     "stylelint:check": "stylelint src/**/*.scss",
-    "deploy": "firebase deploy --only hosting",
+    "deploy": "firebase deploy",
     "build:modern": "ng build --plugin ngx-build-modern --prod",
     "build:modern:my-netatmo-dashboard": "ng build --plugin ngx-build-modern --project my-netatmo-dashboard --prod"
   },
