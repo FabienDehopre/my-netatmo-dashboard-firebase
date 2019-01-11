@@ -11,17 +11,18 @@ import { Battery } from '../../models/battery';
 export class BatteryComponent {
   svgIcon: string | null = null;
   cssClass: string | null = null;
-  percent!: number;
+  tooltip: string | null = null;
 
   @Input()
   set value(value: Battery | null) {
     if (value == null) {
       this.svgIcon = null;
       this.cssClass = null;
+      this.tooltip = null;
       return;
     }
 
-    this.percent = value.percent;
+    this.tooltip = `${value.percent}%`;
     const level = Math.max(0, Math.min(100, Math.round(value.percent / 10) * 10));
     if (level === 0) {
       this.svgIcon = 'battery-outline';

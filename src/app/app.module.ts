@@ -22,8 +22,10 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { LocationComponent } from './components/location/location.component';
 import { MainModuleComponent } from './components/main-module/main-module.component';
 import { OutdoorModuleComponent } from './components/outdoor-module/outdoor-module.component';
+import { RadioComponent } from './components/radio/radio.component';
 import { RainGaugeModuleComponent } from './components/rain-gauge-module/rain-gauge-module.component';
 import { StationComponent } from './components/station/station.component';
+import { WifiComponent } from './components/wifi/wifi.component';
 import { WindGaugeModuleComponent } from './components/wind-gauge-module/wind-gauge-module.component';
 import { MaterialModule } from './material.module';
 import { CallbackComponent } from './pages/callback/callback.component';
@@ -72,6 +74,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     WindGaugeModuleComponent,
     RainGaugeModuleComponent,
     BatteryComponent,
+    WifiComponent,
+    RadioComponent,
   ],
   imports: [
     BrowserModule,

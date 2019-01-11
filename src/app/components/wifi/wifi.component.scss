@@ -1,0 +1,8 @@
+$app-wifi-colors: #c00 #dd6300 #e69000 #738b00 #008000;
+$app-wifi-signals: 'unstable' 'low' 'medium' 'good' 'excellent';
+
+@for $i from 1 through length($app-wifi-colors) {
+  .app-wifi--#{nth($app-wifi-signals, $i)} {
+    color: nth($app-wifi-colors, $i);
+  }
+}

@@ -1,0 +1,8 @@
+$app-radio-colors: #c00 #dd6300 #e69000 #738b00 #008000;
+$app-radio-signals: 'unstable' 'low' 'medium' 'good' 'excellent';
+
+@for $i from 1 through length($app-radio-colors) {
+  .app-radio--#{nth($app-radio-signals, $i)} {
+    color: nth($app-radio-colors, $i);
+  }
+}
