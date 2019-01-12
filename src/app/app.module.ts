@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { AngularFireModule } from '@angular/fire';
+import { AngularFireModule, FirebaseAppConfig } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireFunctionsModule, FunctionsRegionToken } from '@angular/fire/functions';
@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { MatIconRegistry } from '@angular/material/icon';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { firebase, firebaseui, FirebaseUIModule } from 'firebaseui-angular';
+import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 
 import { environment } from '../environments/environment';
 
@@ -35,24 +35,6 @@ import { LogoutComponent } from './pages/logout.component';
 import { AltitudePipe } from './pipes/altitude.pipe';
 import { CountryPipe } from './pipes/country.pipe';
 import { InjectorRef } from './services/injector-ref';
-
-const firebaseUiAuthConfig: firebaseui.auth.Config = {
-  signInFlow: 'redirect', // 'popup',
-  signInOptions: [
-    {
-      provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      authMethod: 'https://accounts.google.com',
-      clientId: '252006230321-vijp8et46l5vnfcsj3t7m5e543pdo4pg.apps.googleusercontent.com',
-    },
-    // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-    // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-    // firebase.auth.GithubAuthProvider.PROVIDER_ID,
-    firebase.auth.EmailAuthProvider.PROVIDER_ID,
-  ],
-  tosUrl: '/todo-tos',
-  privacyPolicyUrl: '/todo-privacy',
-  credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
-};
 
 @NgModule({
   declarations: [
@@ -87,7 +69,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     AngularFirestoreModule,
     AngularFireFunctionsModule,
     HttpClientModule,
-    FirebaseUIModule.forRoot(firebaseUiAuthConfig),
+    NgxAuthFirebaseUIModule.forRoot(environment.firebase),
     MaterialModule,
   ],
   bootstrap: [AppComponent],

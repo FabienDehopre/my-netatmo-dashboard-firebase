@@ -1,12 +1,6 @@
 <app-layout>
   <mat-card class="app-login__card">
     <mat-card-title class="app-login__card-title">Login</mat-card-title>
-    <mat-card-content>
-      <firebase-ui (signInSuccessWithAuthResult)="signInSuccess($event)" (signInFailure)="signInFail($event)"></firebase-ui>
-    </mat-card-content>
+    <mat-card-content> <ngx-auth-firebaseui (onSuccess)="signInSuccess()"></ngx-auth-firebaseui> </mat-card-content>
   </mat-card>
 </app-layout>
-<ng-template #signInFailure let-data>
-  <span class="snack-bar-failure__title">An error occured</span>
-  <span class="snack-bar-failure__message">An error occurred while trying to authenticate you (code: {{ data.code }}).</span>
-</ng-template>

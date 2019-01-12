@@ -29,9 +29,14 @@
                 "glob": "*.svg",
                 "input": "node_modules/@mdi/angular-material/",
                 "output": "./assets/"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-auth-firebaseui/assets/",
+                "output": "./assets/"
               }
             ],
-            "styles": ["src/styles.scss", "node_modules/firebaseui/dist/firebaseui.css"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -83,9 +88,22 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
-            "styles": ["src/styles.scss", "node_modules/firebaseui/dist/firebaseui.css"],
+            "styles": ["src/styles.scss"],
             "scripts": [],
-            "assets": ["src/favicon.ico", "src/assets"]
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              {
+                "glob": "*.svg",
+                "input": "node_modules/@mdi/angular-material/",
+                "output": "./assets/"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-auth-firebaseui/assets/",
+                "output": "./assets/"
+              }
+            ]
           }
         },
         "lint": {
