@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "prestart": "node ./scripts/set-env.js && cp ./node_modules/@mdi/angular-material/mdi.svg ./src/assets/mdi.svg",
+    "prestart": "node ./scripts/set-env.js",
     "start": "ng serve",
-    "prebuild": "node ./scripts/set-env.js --prod && cp ./node_modules/@mdi/angular-material/mdi.svg ./src/assets/mdi.svg",
+    "prebuild": "node ./scripts/set-env.js --prod",
     "build": "ng build --prod",
     "test": "ng test",
     "e2e": "ng e2e",
