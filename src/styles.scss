@@ -8,7 +8,7 @@
 // have to load a single css file for Angular Material in your app.
 
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,600');
 
 $fontConfig: (
   display-4: mat-typography-level(112px, 112px, 300, 'Roboto', -0.0134em),
@@ -200,6 +200,7 @@ $altTheme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
 html,
 body {
   margin: 0 auto;
+  font-family: Roboto;
 }
 
 .theme-alternate .snack-bar-failure,

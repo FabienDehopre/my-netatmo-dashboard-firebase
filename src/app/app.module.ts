@@ -34,6 +34,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { LogoutComponent } from './pages/logout.component';
 import { AltitudePipe } from './pipes/altitude.pipe';
 import { CountryPipe } from './pipes/country.pipe';
+import { TimestampPipe } from './pipes/timestamp.pipe';
 import { InjectorRef } from './services/injector-ref';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
@@ -76,6 +77,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     BatteryComponent,
     WifiComponent,
     RadioComponent,
+    TimestampPipe,
   ],
   imports: [
     BrowserModule,

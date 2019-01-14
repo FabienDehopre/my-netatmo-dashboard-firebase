@@ -4,8 +4,53 @@
 }
 
 /* stylelint-disable selector-max-type */
-.app-main-module__title ::ng-deep div {
+.app-main-module__title ::ng-deep div,
+.app-main-module__footer {
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+.app-main-module__temperature--current {
+  color: #d25600;
+  font-size: 72px;
+  font-weight: 500;
+}
+
+.app-main-module__temperature--min-max {
+  display: flex;
+  flex-direction: column;
+  font-size: 22px;
+}
+
+.app-main-module__temparature--min {
+  display: flex;
+  align-items: center;
+
+  > span {
+    color: #2e7fb9;
+  }
+}
+
+.app-main-module__temparature--max {
+  display: flex;
+  align-items: center;
+
+  > span {
+    color: #d25600;
+  }
+}
+
+.app-main-module__footer {
+  margin: unset;
+}
+
+.app-main-module__last-update,
+.app-main-module__firmware {
+  display: flex;
+  align-items: center;
+
+  .app-main-module__footer--icon {
+    margin-right: 4px;
+  }
 }

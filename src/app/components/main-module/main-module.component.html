@@ -5,7 +5,59 @@
     <mat-card-title>{{ device?.name }}</mat-card-title>
     <mat-card-subtitle><app-wifi [value]="device?.wifiStatus"></app-wifi></mat-card-subtitle>
   </mat-card-title-group>
-  <mat-card-content>
-    <pre class="app-main-module__pre">{{ device | json }}</pre>
+  <mat-card-content class="app-main-module__content">
+    <div class="app-main-module__temparature">
+      <div class="app-main-module__temp-label">
+        <mat-icon svgIcon="thermometer" class="app-main-module__temp-label--thermometer"></mat-icon>
+        <ng-container [ngSwitch]="device?.current.temperature.trend">
+          <mat-icon *ngSwitchCase="'up'" svgIcon="arrow-up-circle-outline"></mat-icon>
+          <mat-icon *ngSwitchCase="'down'" svgIcon="arrow-down-circle-outline"></mat-icon>
+          <mat-icon *ngSwitchCase="'stable'" svgIcon="arrow-right-circle-outline"></mat-icon>
+        </ng-container>
+        <ng-container [ngSwitch]="units?.unit">
+          <mat-icon *ngSwitchCase="0" svgIcon="temperature-celsius"></mat-icon>
+          <mat-icon *ngSwitchCase="1" svgIcon="temperature-fahrenheit"></mat-icon>
+        </ng-container>
+      </div>
+      <div class="app-main-module__temperature--current">{{ device?.current.temperature.current }}</div>
+      <div class="app-main-module__temperature--min-max">
+        <span class="app-main-module__temparature--max">
+          <span>
+            <mat-icon svgIcon="arrow-collapse-up"></mat-icon>
+            {{ device?.current.temperature.max.value }}
+            <ng-container [ngSwitch]="units?.unit">
+              <mat-icon *ngSwitchCase="0" svgIcon="temperature-celsius"></mat-icon>
+              <mat-icon *ngSwitchCase="1" svgIcon="temperature-fahrenheit"></mat-icon>
+            </ng-container>
+            :
+          </span>
+          {{ device?.current.temperature.max.timeUtc | timestamp | date: 'dd.MM. H:mm' }}
+        </span>
+        <span class="app-main-module__temparature--min">
+          <span>
+            <mat-icon svgIcon="arrow-collapse-down"></mat-icon>
+            {{ device?.current.temperature.min.value }}
+            <ng-container [ngSwitch]="units?.unit">
+              <mat-icon *ngSwitchCase="0" svgIcon="temperature-celsius"></mat-icon>
+              <mat-icon *ngSwitchCase="1" svgIcon="temperature-fahrenheit"></mat-icon>
+            </ng-container>
+            :
+          </span>
+          {{ device?.current.temperature.min.timeUtc | timestamp | date: 'dd.MM. H:mm' }}
+        </span>
+      </div>
+    </div>
   </mat-card-content>
+  <mat-card-footer class="app-main-module__footer">
+    <div class="app-main-module__last-update">
+      <mat-icon svgIcon="webhook" class="app-main-module__footer--icon"></mat-icon>
+      {{ device?.current.timeUtc | timestamp | date: 'dd.MM.yyyy - H:mm' }}
+    </div>
+    <div class="app-main-module__firmware">
+      <mat-icon svgIcon="chip" class="app-main-module__footer--icon"></mat-icon>
+      {{ device?.firmware }}
+    </div>
+  </mat-card-footer>
 </mat-card>
+
+<pre class="app-main-module__pre">{{ device | json }}</pre>

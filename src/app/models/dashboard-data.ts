@@ -34,24 +34,9 @@ export interface MainDashboardData extends DashboardData {
   noise: number;
 }
 
-export interface HistoricMainDashboardData {
-  timeUtc: Timestamp;
-  temperature: number;
-  pressure: number;
-  co2: number;
-  humidity: number;
-  noise: number;
-}
-
 export interface OutdoorDashboardData extends DashboardData {
   type: 'NAModule1';
   temperature: TemperatureData;
-  humidity: number;
-}
-
-export interface HistoricOutdoorDashboardData {
-  timeUtc: Timestamp;
-  temperature: number;
   humidity: number;
 }
 
@@ -64,14 +49,6 @@ export interface WindGaugeDashboardData extends DashboardData {
   windHistoric: Array<{ windStrength: number; windAngle: number }>;
 }
 
-export interface HistoricWindGaugeDashboardData {
-  timeUtc: Timestamp;
-  windStrength: number;
-  windAngle: number;
-  gustStrength: number;
-  gustAngle: number;
-}
-
 export interface RainGaugeDashboardData extends DashboardData {
   type: 'NAModule3';
   rain: number;
@@ -79,21 +56,9 @@ export interface RainGaugeDashboardData extends DashboardData {
   sum24h: number;
 }
 
-export interface HistoricRainGaugeDashboardData {
-  timeUtc: Timestamp;
-  rain: number;
-}
-
 export interface IndoorDashboardData extends DashboardData {
   type: 'NAModule4';
   temperature: TemperatureData;
-  co2: number;
-  humidity: number;
-}
-
-export interface HistoricIndoorDashboardData {
-  timeUtc: Timestamp;
-  temperature: number;
   co2: number;
   humidity: number;
 }
