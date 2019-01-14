@@ -1,3 +1,11 @@
-<h1>Main Module</h1>
-<app-wifi [value]="device?.wifiStatus"></app-wifi>
-<pre class="app-main-module__pre">{{ device | json }}</pre>
+<!-- <h1>Main Module</h1>
+<app-wifi [value]="device?.wifiStatus"></app-wifi> -->
+<mat-card>
+  <mat-card-title-group class="app-main-module__title">
+    <mat-card-title>{{ device?.name }}</mat-card-title>
+    <mat-card-subtitle><app-wifi [value]="device?.wifiStatus"></app-wifi></mat-card-subtitle>
+  </mat-card-title-group>
+  <mat-card-content>
+    <pre class="app-main-module__pre">{{ device | json }}</pre>
+  </mat-card-content>
+</mat-card>

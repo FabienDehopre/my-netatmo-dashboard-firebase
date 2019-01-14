@@ -2,3 +2,10 @@
   max-height: 400px;
   overflow-y: scroll;
 }
+
+/* stylelint-disable selector-max-type */
+.app-main-module__title ::ng-deep div {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}

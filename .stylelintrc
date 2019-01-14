@@ -21,6 +21,18 @@
       }
     ],
     "scss/at-function-pattern": "^app-.+",
-    "scss/at-mixin-pattern": "^app-.+"
+    "scss/at-mixin-pattern": "^app-.+",
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["host"]
+      }
+    ],
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": ["ng-deep"]
+      }
+    ]
   }
 }
